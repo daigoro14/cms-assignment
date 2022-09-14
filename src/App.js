@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import {useState} from 'react'
+import './style.css'
 
 function App() {
+
+  const [posts, setPosts] = useState([])
+
+const fetchData = () => {
+  fetch("http://localhost/wp-json/wp/v2/posts")
+  .then(response => {
+    return response.json()
+  })
+  .then(data => {
+    setPosts(data)
+  })
+}
+
+useState(() => {
+  fetchData()
+}, [])
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {posts.length > 0 && (
+        <>
+            {posts.map(post => (
+            <div className="postDiv" key={post.id}>
+                <h1>{post.title.rendered}</h1>
+                <div dangerouslySetInnerHTML={{__html:post.content.rendered}}></div>
+            </div>
+          ))}
+        </>
+      )}
     </div>
   );
 }
