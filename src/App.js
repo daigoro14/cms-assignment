@@ -6,12 +6,13 @@ function App() {
   const [posts, setPosts] = useState([])
 
 const fetchData = () => {
-  fetch("http://localhost/wp-json/wp/v2/posts")
+  fetch("https://public-api.wordpress.com/rest/v1.1/sites/nackademin689930809.wordpress.com/posts")
   .then(response => {
     return response.json()
   })
   .then(data => {
-    setPosts(data)
+    setPosts(data.posts)
+    console.log(data.posts)
   })
 }
 
@@ -22,13 +23,12 @@ useState(() => {
 
   return (
     <div>
-      <h1>CMS ASSIGNMENT</h1><br></br>
       {posts.length > 0 && (
         <>
             {posts.map(post => (
             <div className="postDiv" key={post.id}>
-                <h1>{post.title.rendered}</h1>
-                <div dangerouslySetInnerHTML={{__html:post.content.rendered}}></div>
+                <h1>{post.title}</h1>
+                <div dangerouslySetInnerHTML={{__html:post.content}}></div>
             </div>
           ))}
         </>
