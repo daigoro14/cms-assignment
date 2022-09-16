@@ -5,6 +5,7 @@ function App() {
 
   const [posts, setPosts] = useState([])
 
+//fetches data from our CMS wordpress backend
 const fetchData = () => {
   fetch("https://public-api.wordpress.com/rest/v1.1/sites/nackademin689930809.wordpress.com/posts")
   .then(response => {
